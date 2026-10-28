@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { CancelButton, CancelRequestForm, PaymentForm } from './forms';
+import { BrandBar } from '@/app/brand';
 import VerifyForm from '@/app/verify-form';
 import { hasReservationAccess } from '@/lib/access';
 import { normalizeCode } from '@/lib/code';
@@ -27,6 +28,7 @@ export default async function ReservationPage({
   if (!(await hasReservationAccess(code))) {
     return (
       <main className="wrap">
+        <BrandBar />
         <h1>예약 확인</h1>
         <p className="sub">
           본인 예약인지 확인이 필요합니다. 예약할 때 적은 전화번호를 넣어 주세요.
@@ -41,6 +43,7 @@ export default async function ReservationPage({
   if (!detail) {
     return (
       <main className="wrap">
+        <BrandBar />
         <h1>예약을 찾을 수 없습니다</h1>
         <p className="sub">코드를 다시 확인해 주세요.</p>
         <Link className="btn btn--ghost" href="/lookup">
@@ -58,6 +61,7 @@ export default async function ReservationPage({
 
   return (
     <main className="wrap">
+      <BrandBar />
       <h1>예약 내역</h1>
       <p className="sub">
         <span className={BADGE_CLASS[reservation.status] ?? 'badge'}>

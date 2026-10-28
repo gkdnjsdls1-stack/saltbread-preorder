@@ -7,6 +7,7 @@ import {
   logoutAction,
   markPickedUpAction,
 } from '@/app/admin/actions';
+import { BrandBar } from '@/app/brand';
 import SetupNotice from '@/app/setup-notice';
 import { isAdmin } from '@/lib/admin-auth';
 import { formatPhone, won } from '@/lib/format';
@@ -51,6 +52,7 @@ export default async function AdminPage({
 
   return (
     <main className="wrap wrap--wide">
+      <BrandBar link={false} />
       <h1>예약 관리</h1>
       <p className="sub">{formatDateKo(date)} 픽업</p>
 

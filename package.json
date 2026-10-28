@@ -6,7 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check:db": "node --env-file=.env.local scripts/check-db.mjs",
+    "check:guards": "node --env-file=.env.local scripts/check-guards.mjs",
+    "check:notify": "node --env-file=.env.local scripts/check-notify.mjs"
+  },
+  "overrides": {
+    "postcss": "^8.5.32"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.58.0",

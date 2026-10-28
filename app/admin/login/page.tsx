@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation';
+import { BrandBar } from '@/app/brand';
 import { loginAction } from '@/app/admin/actions';
 import { isAdmin } from '@/lib/admin-auth';
 
@@ -15,6 +16,7 @@ export default async function AdminLoginPage({
 
   return (
     <main className="wrap">
+      <BrandBar link={false} />
       <h1>관리 화면</h1>
       <p className="sub">사장님용입니다.</p>
 

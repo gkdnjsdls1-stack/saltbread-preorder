@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Hero } from '@/app/brand';
 import ReserveForm from '@/app/reserve-form';
 import SetupNotice from '@/app/setup-notice';
 import { getProductsWithRemaining } from '@/lib/queries';
@@ -24,31 +25,34 @@ export default async function HomePage() {
   }
 
   return (
-    <main className="wrap">
-      <h1>소금빵 하루 전 예약</h1>
-      <p className="sub">
-        {formatDateKo(pickupDate)} 픽업 · 예약은 전날 밤 {CUTOFF_HOUR}시까지
-      </p>
+    <>
+      <Hero />
+      <main className="wrap">
+        <h1>소금빵 하루 전 예약</h1>
+        <p className="sub">
+          {formatDateKo(pickupDate)} 픽업 · 예약은 전날 밤 {CUTOFF_HOUR}시까지
+        </p>
 
-      <nav className="nav">
-        <Link href="/lookup">예약 조회하기</Link>
-      </nav>
+        <nav className="nav">
+          <Link href="/lookup">예약 조회하기</Link>
+        </nav>
 
-      {setupError ? <SetupNotice message={setupError} /> : null}
+        {setupError ? <SetupNotice message={setupError} /> : null}
 
-      {!open ? (
-        <div className="notice">
-          오늘은 내일 픽업 예약이 마감되었습니다. 예약은 전날 밤 {CUTOFF_HOUR}시까지만 받습니다.
-          <br />
-          밤 12시가 지나면 다시 예약할 수 있습니다.
-        </div>
-      ) : null}
+        {!open ? (
+          <div className="notice">
+            오늘은 내일 픽업 예약이 마감되었습니다. 예약은 전날 밤 {CUTOFF_HOUR}시까지만 받습니다.
+            <br />
+            밤 12시가 지나면 다시 예약할 수 있습니다.
+          </div>
+        ) : null}
 
-      {open && !setupError && products.length === 0 ? (
-        <div className="notice">지금은 예약을 받을 상품이 없습니다.</div>
-      ) : null}
+        {open && !setupError && products.length === 0 ? (
+          <div className="notice">지금은 예약을 받을 상품이 없습니다.</div>
+        ) : null}
 
-      {open && !setupError && products.length > 0 ? <ReserveForm products={products} /> : null}
-    </main>
+        {open && !setupError && products.length > 0 ? <ReserveForm products={products} /> : null}
+      </main>
+    </>
   );
 }

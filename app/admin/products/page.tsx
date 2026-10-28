@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { addProductAction, setDailyLimitAction, updateProductAction } from '@/app/admin/actions';
+import { BrandBar } from '@/app/brand';
 import SetupNotice from '@/app/setup-notice';
 import { isAdmin } from '@/lib/admin-auth';
 import { getAllProducts, getDailyLimits } from '@/lib/queries';
@@ -32,6 +33,7 @@ export default async function AdminProductsPage({
 
   return (
     <main className="wrap wrap--wide">
+      <BrandBar link={false} />
       <h1>상품 · 한도</h1>
       <p className="sub">가격과 하루 한도를 여기서 바꿉니다.</p>
 

@@ -5,6 +5,13 @@
  * 호출하는 쪽은 "무엇을 알린다"만 알고 "어떻게 보낸다"는 모른다.
  */
 
+/**
+ * 알림은 예약이 저장된 뒤에 보낸다. 그래도 호출하는 쪽이 await 하므로,
+ * 텔레그램이 느리면 손님 화면이 같이 멈춘다. 그래서 짧게 끊는다.
+ * 알림을 못 보내는 것보다 손님을 기다리게 하는 쪽이 나쁘다.
+ */
+const TIMEOUT_MS = 5000;
+
 async function send(text: string): Promise<void> {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
@@ -20,13 +27,17 @@ async function send(text: string): Promise<void> {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ chat_id: chatId, text }),
+      signal: AbortSignal.timeout(TIMEOUT_MS),
     });
     if (!res.ok) {
+      // 내용을 로그에 남겨 둔다. 알림이 끊겨도 사장님이 관리 화면에서는 볼 수 있다.
       console.error('[notify] 텔레그램 응답 오류', res.status, await res.text());
+      console.log('[notify] 보내려던 내용:', text);
     }
   } catch (err) {
     // 알림이 실패해도 예약 자체는 성공해야 한다. 절대 던지지 않는다.
-    console.error('[notify] 전송 실패', err);
+    console.error('[notify] 전송 실패', err instanceof Error ? err.message : err);
+    console.log('[notify] 보내려던 내용:', text);
   }
 }
 
